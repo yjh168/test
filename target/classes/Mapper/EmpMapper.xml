@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkzd.dao.EmpDao">
+    <resultMap id="empResult" type="com.zkzd.pojo.Emp">
+        <id property="empid" column="empid"></id>
+        <result property="empName" column="empname"></result>
+        <result property="sex" column="sex"></result>
+        <result property="deptId" column="deptid"></result>
+        <result property="salary" column="salary"></result>
+<!--        <association property="dept" javaType="com.zkzd.pojo.Dept">-->
+<!--            <id property="id" column="id"></id>-->
+<!--            <result property="deptName" column="deptName"></result>-->
+<!--        </association>-->
+    </resultMap>
+    <select id="getAll" resultType="EMP">
+            select * from emp
+        </select>
+    <!--增加-->
+        <insert id="addEmp" parameterType="com.zkzd.pojo.Emp">
+             insert into emp(empId,empName,sex,deptId,salary)
+                                values(#{empId},#{empName},#{sex},#{deptId},#{salary})
+       </insert>
+    <!--修改-->
+        <update id="updateEmp" parameterType="java.util.Map">
+            update emp set empName=#{empName} where empId=#{empId}
+        </update>
+    <!--分页-->
+        <select id="getAssociation" resultMap="empResult">
+              select * from emp e,dept d where e.deptid=d.id limit #{start},#{pageSize}
+        </select>
+<!--    条件查询-->
+    <select id="testIf" resultMap="empResult">
+        select * from emp where 1=1
+        <if test="empName!=null">
+            and empname like concat('%',#{empName},'%')
+        </if>
+        <if test="sex!=null">
+            and sex=#{sex}
+        </if>
+        <if test="salary!=null">
+            and salary >= #{salary}
+        </if>
+    </select>
+</mapper>
