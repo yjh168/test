@@ -27,7 +27,8 @@ public class test extends Application {
         Map map = new HashMap();
         map.put("empName","mike");
         map.put("empId",4);
-
+        System.out.println("你好!");
+        System.out.println("你好!");
         int count = empDao.updateEmp(map);
 
         if(count>0){
